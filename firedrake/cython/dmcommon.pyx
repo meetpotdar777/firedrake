@@ -1913,6 +1913,7 @@ def _set_dg_coordinates(PETSc.DM dm,
         PetscScalar *dg_coords
         const PetscScalar *firedrake_dg_coords
         PetscInt n, gdim, cStart, cEnd, c, offset, firedrake_offset, i, j, coord_size, ndof
+        PETSc.FE coord_fe
 
     gdim = firedrake_dg_coord_vec.getBlockSize()
     coord_dm = dm.getCoordinateDM()
@@ -1945,6 +1946,8 @@ def _set_dg_coordinates(PETSc.DM dm,
                                           dg_coord_vec,
                                           True)
     dm.setCellCoordinatesLocal(dg_coord_vec)
+    coord_fe = dm.createCoordinateFE(True, 1, gdim, 1)
+    dm.getCellCoordinateDM().setField(0, coord_fe)
 
 
 @cython.boundscheck(False)

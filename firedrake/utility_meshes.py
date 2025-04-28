@@ -734,6 +734,8 @@ def TensorRectangleMesh(
     plex = mesh.plex_from_cell_list(
         2, cells, coords, comm, mesh._generate_default_mesh_topology_name(name)
     )
+    coordFE = plex.createCoordinateFE(False, 1, 2, 1)
+    plex.getCoordinateDM().setField(0, coordFE)
 
     # mark boundary facets
     plex.createLabel(dmcommon.FACE_SETS_LABEL)
